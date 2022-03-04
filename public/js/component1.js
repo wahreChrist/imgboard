@@ -14,12 +14,21 @@ const Component1 = {
         fetch(`/getImage/${this.imageId}`)
             .then((response) => response.json())
             .then((data) => {
-                //provide logic for displaying
-                this.url = data.url;
-                this.id = data.id;
-                this.username = data.username;
-                this.title = data.title;
-                this.description = data.description;
+                if (data.length == 0) {
+                    history.replaceState({ page: "nonexistant" }, "", "/");
+                } else {
+                    //provide logic for displaying
+                    this.url = data.url;
+                    this.id = data.id;
+                    this.username = data.username;
+                    this.title = data.title;
+                    this.description = data.description;
+                    history.pushState(
+                        { page: `${this.imageId}` },
+                        "",
+                        `${this.imageId}`
+                    );
+                }
             })
             .catch((err) => console.log("error in pulling image info", err));
     },

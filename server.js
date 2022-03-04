@@ -57,6 +57,7 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
             .catch((err) => {
                 console.log(err);
                 res.sendStatus(500);
+                res.json([]);
             });
     }
 });
@@ -69,7 +70,6 @@ app.get("/getImage/:id", (req, res) => {
 
 app.get("/comment/:id", (req, res) => {
     db.pullComment(req.params.id).then(({ rows }) => {
-        console.log("comments", rows);
         res.json(rows);
     });
 });

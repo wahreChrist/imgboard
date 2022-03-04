@@ -14,15 +14,7 @@ const app = Vue.createApp({
             btn: true,
         };
     },
-    mounted: function () {
-        fetch("/images.json")
-            .then((response) => response.json())
-            .then(({ rows }) => {
-                this.images = rows;
-                this.lastId = this.images[this.images.length - 1].id;
-            })
-            .catch((err) => console.log(err));
-    },
+
     methods: {
         selectFile: function (e) {
             this.file = e.target.files[0];
@@ -44,18 +36,16 @@ const app = Vue.createApp({
                 .catch((err) => console.log("error in /upload", err));
         },
         display: function (e) {
-            console.log(e.target.getAttribute("id")); // returns image id
             this.show = e.target.getAttribute("id");
         },
         toggle: function () {
             this.show = 0;
+            history.pushState({ page: "main" }, "", "/");
         },
         morePics: function () {
             fetch(`/moreImages/${this.lastId}`)
                 .then((response) => response.json())
                 .then((data) => {
-                    // this.lastId = this.images[this.images.length - 1].id;
-
                     data.forEach((element) => {
                         this.lastId = element.id;
                         element.lowestId === this.lastId
@@ -67,6 +57,31 @@ const app = Vue.createApp({
                 })
                 .catch((err) => console.log("error in more images", err));
         },
+        getImages: function () {
+            fetch("/images.json")
+                .then((response) => response.json())
+                .then(({ rows }) => {
+                    this.images = rows;
+                    this.lastId = this.images[this.images.length - 1].id;
+                })
+                .catch((err) => console.log(err));
+        },
+    },
+    mounted: function () {
+        window.addEventListener("popstate", (e) => {
+            if (e.state.page == "main" || e.state.page == "nonexistant") {
+                this.show = 0;
+            } else {
+                this.show = e.state.page;
+            }
+        });
+        this.getImages();
+        this.show = location.pathname.slice(1);
+        // console.log(
+        //     this.images.some(function (pic) {
+        //         parseInt(pic.id) == location.pathname.slice(1);
+        //     })
+        // );
     },
     components: {
         Component1,
