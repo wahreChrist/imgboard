@@ -1,3 +1,5 @@
+import Component2 from "./component2.js";
+
 const Component1 = {
     data() {
         return {
@@ -12,7 +14,6 @@ const Component1 = {
         fetch(`/getImage/${this.imageId}`)
             .then((response) => response.json())
             .then((data) => {
-                console.log("received image data on client side", data);
                 //provide logic for displaying
                 this.url = data.url;
                 this.id = data.id;
@@ -22,13 +23,17 @@ const Component1 = {
             })
             .catch((err) => console.log("error in pulling image info", err));
     },
+    components: {
+        Component2,
+    },
     props: ["imageId"],
     template: `
         <div class='component'>
             <img :src='url' alt='title' />
-            <p>Uploaded by {{username}}</p>
-            <p>{{title}}</p>
-            <p>{{description}}</p>
+            <p class='component--img--info'>Uploaded by {{username}}</p>
+            <p class='component--img--info'>{{title}}</p>
+            <p class='component--img--info'>{{description}}</p>
+            <Component2 :image-id='imageId' ></Component2>
             <div class='overlay' @click='this.$emit("closeDown");'></div>
         </div>
     `,

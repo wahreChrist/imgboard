@@ -4,6 +4,7 @@
 
 body {
     background-color: #ffffee;
+    font-family: "Montserrat", sans-serif;
 }
 
 img {
@@ -35,14 +36,51 @@ img {
     padding: 1em;
 }
 
+.component--img--info {
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin: 0.1em;
+}
+
 .overlay {
     position: fixed;
     z-index: -100;
     top: -36%;
-    left: -140%;
-    /* transform: translate(-35%, -35%); */
+    left: -150%;
     overflow: hidden;
-    height: 110vh;
-    width: 110vw;
+    height: 155vh;
+    width: 160vw;
     background-color: #100f0f54;
+}
+
+.component2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.component2 h4 {
+    margin-top: 0;
+}
+
+.comments--field {
+    background-color: #c6c4b9;
+    border-radius: 4px;
+    border: 1px solid black;
+    overflow-y: scroll;
+    height: 100px;
+}
+
+.comment--text {
+    font-weight: 400;
+}
+.comment--creds {
+    font-size: 0.7rem;
+    font-weight: 300;
+}
+
+.morePics {
+    position: absolute;
+    left: 50%;
+    transform: translateY(-50%);
+    margin: 1.5em 0;
 }

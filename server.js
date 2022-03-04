@@ -63,8 +63,27 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 
 app.get("/getImage/:id", (req, res) => {
     db.pullImage(req.params.id).then(({ rows }) => {
-        console.log("puled image data in node", rows);
         res.json(rows[0]);
+    });
+});
+
+app.get("/comment/:id", (req, res) => {
+    db.pullComment(req.params.id).then(({ rows }) => {
+        console.log("comments", rows);
+        res.json(rows);
+    });
+});
+
+app.post("/comment", (req, res) => {
+    const { text, username, image_id } = req.body;
+    db.postComment(text, username, image_id).then(({ rows }) => {
+        res.json(rows[0]);
+    });
+});
+
+app.get("/moreImages/:id", (req, res) => {
+    db.getMoreImages(req.params.id).then(({ rows }) => {
+        res.json(rows);
     });
 });
 

@@ -10,14 +10,16 @@ const app = Vue.createApp({
             username: "",
             file: null,
             show: 0,
+            lastId: null,
+            btn: true,
         };
     },
     mounted: function () {
-        //place where you need to retrieve data for an initial render
         fetch("/images.json")
             .then((response) => response.json())
             .then(({ rows }) => {
                 this.images = rows;
+                this.lastId = this.images[this.images.length - 1].id;
             })
             .catch((err) => console.log(err));
     },
@@ -37,7 +39,6 @@ const app = Vue.createApp({
             })
                 .then((resp) => resp.json())
                 .then((data) => {
-                    console.log("returned data from upload req", data);
                     this.images.unshift(data);
                 })
                 .catch((err) => console.log("error in /upload", err));
@@ -48,6 +49,23 @@ const app = Vue.createApp({
         },
         toggle: function () {
             this.show = 0;
+        },
+        morePics: function () {
+            fetch(`/moreImages/${this.lastId}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    // this.lastId = this.images[this.images.length - 1].id;
+
+                    data.forEach((element) => {
+                        this.lastId = element.id;
+                        element.lowestId === this.lastId
+                            ? (this.btn = false)
+                            : (this.btn = true);
+
+                        this.images.push(element);
+                    });
+                })
+                .catch((err) => console.log("error in more images", err));
         },
     },
     components: {
