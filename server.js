@@ -76,9 +76,15 @@ app.get("/comment/:id", (req, res) => {
 
 app.post("/comment", (req, res) => {
     const { text, username, image_id } = req.body;
-    db.postComment(text, username, image_id).then(({ rows }) => {
-        res.json(rows[0]);
-    });
+    console.log(text, username, image_id);
+    db.postComment(text, username, image_id)
+        .then(({ rows }) => {
+            res.json(rows[0]);
+        })
+        .catch((err) => {
+            console.log("error in back end posting", err);
+            // res.statusCode(500);
+        });
 });
 
 app.get("/moreImages/:id", (req, res) => {

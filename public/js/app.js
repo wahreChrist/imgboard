@@ -7,11 +7,13 @@ const app = Vue.createApp({
             images: [],
             title: "",
             description: "",
-            username: "",
+            username: "Anonymous",
             file: null,
             show: 0,
+
             lastId: null,
             btn: true,
+            form: false,
         };
     },
 
@@ -32,20 +34,31 @@ const app = Vue.createApp({
                 .then((resp) => resp.json())
                 .then((data) => {
                     this.images.unshift(data);
+                    this.title = "";
+                    this.username = "Anonymous";
+                    this.description = "";
                 })
                 .catch((err) => console.log("error in /upload", err));
         },
         display: function (e) {
-            this.show = e.target.getAttribute("id");
+            if (this.show == e.target.getAttribute("id")) {
+                console.log(this.show);
+                // history.pushState({}, "", "/");
+            } else if (e.target.getAttribute("id")) {
+                this.show = e.target.getAttribute("id");
+            }
         },
-        toggle: function () {
-            this.show = 0;
-            history.pushState({ page: "main" }, "", "/");
+        turn: function (image) {
+            image.isActive = !image.isActive;
+            if (image.isActive == false) {
+                this.show = 0;
+            }
         },
         morePics: function () {
             fetch(`/moreImages/${this.lastId}`)
                 .then((response) => response.json())
                 .then((data) => {
+                    console.log("more pics obj", data);
                     data.forEach((element) => {
                         this.lastId = element.id;
                         element.lowestId === this.lastId
@@ -68,20 +81,7 @@ const app = Vue.createApp({
         },
     },
     mounted: function () {
-        window.addEventListener("popstate", (e) => {
-            if (e.state.page == "main" || e.state.page == "nonexistant") {
-                this.show = 0;
-            } else {
-                this.show = e.state.page;
-            }
-        });
         this.getImages();
-        this.show = location.pathname.slice(1);
-        // console.log(
-        //     this.images.some(function (pic) {
-        //         parseInt(pic.id) == location.pathname.slice(1);
-        //     })
-        // );
     },
     components: {
         Component1,

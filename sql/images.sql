@@ -39,8 +39,4 @@ INSERT INTO images (url, username, title, description) VALUES (
     'That is the question.'
 );
 
-INSERT INTO comments (text, username, image_id) VALUES (
-    'test comment',
-    'discoduck',
-    3
-);
+

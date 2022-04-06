@@ -53,7 +53,7 @@ module.exports.postComment = (text, username, image_id) => {
 module.exports.getMoreImages = (lastId) => {
     return db.query(
         `
-        SELECT url, title, id, (
+        SELECT url, title, id, username, description, created_at, (
         SELECT id FROM images
         ORDER BY id ASC
         LIMIT 1
