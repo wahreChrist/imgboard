@@ -48,7 +48,19 @@ const app = Vue.createApp({
                 this.show = e.target.getAttribute("id");
             }
         },
-        turn: function (image) {
+        turn: function (image, e) {
+            if (e) {
+                this.show = e.target.getAttribute("id");
+            }
+
+            const closeAll = () => {
+                this.images.map((image) => {
+                    if (image.id != this.show) {
+                        image.isActive = false;
+                    }
+                });
+            };
+            closeAll();
             image.isActive = !image.isActive;
             if (image.isActive == false) {
                 this.show = 0;

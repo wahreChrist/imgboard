@@ -22,7 +22,7 @@
         </form>
         <div class="image--collection">
             <div class="image--container" v-for="image in images" @click="display" :class="{ activeclass: image.isActive }" >
-                <img :key="image.id" :src="image.url" :alt="image.title" :id="image.id" @click="e => e.target.parentElement.classList.contains('activeclass') == '' && turn(image)" style="cursor: pointer;" class="picture">
+                <img :key="image.id" :src="image.url" :alt="image.title" :id="image.id" @click="e => e.target.parentElement.classList.contains('activeclass') == '' && turn(image, e)" style="cursor: pointer;" class="picture">
                 <div class="originalPost">
                     <p class="originalPost--header"><span class="title">{{image.title}}</span> <span class="user">{{image.username}}</span> {{image.created_at}}</p>
                     <p class="originalPost--text">{{image.description}}</p>
